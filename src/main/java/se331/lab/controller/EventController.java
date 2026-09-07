@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import se331.lab.entity.Event;
@@ -95,14 +96,18 @@ public class EventController {
         perPage = perPage == null ? eventList.size() : perPage;
         page = page == null ? 1 : page;
         Integer firstIndex = (page - 1) * perPage;
+
+        HttpHeaders responseHeader = new HttpHeaders();
+        responseHeader.set("x-total-count", String.valueOf(eventList.size()));
+
         List<Event> output = new ArrayList<>();
         try {
             for (int i = firstIndex; i < firstIndex + perPage; i++) {
                 output.add(eventList.get(i));
             }
-            return ResponseEntity.ok(output);
+            return ResponseEntity.ok().headers(responseHeader).body(output);
         } catch (IndexOutOfBoundsException ex) {
-            return ResponseEntity.ok(output);
+            return ResponseEntity.ok().headers(responseHeader).body(output);
         }
     }
 
