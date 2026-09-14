@@ -1,6 +1,7 @@
 package se331.lab.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +17,17 @@ import java.util.List;
 public class EventController {
     final EventService eventService;
 
-    @GetMapping("events")
+    @GetMapping("/events")
     public ResponseEntity<?> getEventLists(
             @RequestParam(value = "_limit", required = false) Integer perPage,
             @RequestParam(value = "_page", required = false) Integer page) {
-        Integer eventSize = eventService.getEventSize();
-        HttpHeaders responseHeader = new HttpHeaders();
-        responseHeader.set("x-total-count", String.valueOf(eventSize));
-
-        List<Event> output = null;
+        Page<Event> pageOutput = eventService.getEvents(perPage, page);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("x-total-count", String.valueOf(pageOutput.getTotalElements()));
         try {
-            output = eventService.getEvents(perPage, page);
-            return new ResponseEntity<>(output, responseHeader, HttpStatus.OK);
-        } catch (IndexOutOfBoundsException ex) {
-            return new ResponseEntity<>(output, responseHeader, HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok().headers(responseHeaders).body(pageOutput.getContent());
+        } catch (IndexOutOfBoundsException e) {
+            return ResponseEntity.ok().headers(responseHeaders).body(pageOutput.getContent());
         }
     }
 
