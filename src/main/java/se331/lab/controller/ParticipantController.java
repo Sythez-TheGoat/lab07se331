@@ -14,6 +14,6 @@ public class ParticipantController {
 
     @GetMapping("/participants")
     ResponseEntity<?> getParticipants(){
-        return ResponseEntity.ok(LabMapper.INSTANCE.getParticipantDTO(participantService.getAllParticipants()));
+        return ResponseEntity.ok(LabMapper.INSTANCE.getParticipantDetailDTO(participantService.getAllParticipants()));
     }
 }

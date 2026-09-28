@@ -13,8 +13,8 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-@Profile("db")
-public class EventDaoDbImpl implements EventDao {
+@Profile("manual")
+public class EventDaoImpl implements EventDao {
     final EventRepository eventRepository;
 
     @Override
@@ -41,6 +41,6 @@ public class EventDaoDbImpl implements EventDao {
 
     @Override
     public Page<Event> getEvents(String title, Pageable page) {
-        return eventRepository.findByTitleContaining(title, page);
+        return eventRepository.findByTitleIgnoreCaseContainingOrDescriptionIgnoreCaseContainingOrOrganizer_NameIgnoreCaseContaining(title, title, title, page);
     }
 }
