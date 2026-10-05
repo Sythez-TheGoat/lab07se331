@@ -4,7 +4,8 @@ spring:
       enabled: true
   profiles:
     active:
-      - manual
+      - db
+      - local
   application:
     name: 331-backend
   datasource:

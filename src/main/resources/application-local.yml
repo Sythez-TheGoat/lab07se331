@@ -1,0 +1,7 @@
+supabase:
+  storage:
+    endpoint: https://zwznzgidyodpiclbskyo.storage.supabase.co/storage/v1/s3
+    bucket: test
+    region: ap-southeast-1
+    accessKey: fc999cf502a302fb30bb83467d97aff6
+    secretKey: 6f27bc09e7fa81deb9aea965fad0eed7c9deee6c0953d50e1625e54292fae1b3
